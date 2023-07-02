@@ -54,7 +54,7 @@ const Navbar = () => {
             },
           }}
         >
-          Sociopedia
+          Društvena mreža
         </Typography>
         {isNonMobileScreens && (
           <FlexBetween
