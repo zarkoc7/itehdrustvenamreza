@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
 /* REGISTER USER */
-export const register = async (req, res) => { //request body we get from frontend, result we send back to the frontend
+export const register = async (req, res) => {
   try {
     const {
       firstName,
@@ -16,8 +16,8 @@ export const register = async (req, res) => { //request body we get from fronten
       occupation,
     } = req.body;
 
-    const salt = await bcrypt.genSalt(); //encription
-    const passwordHash = await bcrypt.hash(password, salt); //encription of provided user password
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash(password, salt);
 
     const newUser = new User({
       firstName,
@@ -28,13 +28,13 @@ export const register = async (req, res) => { //request body we get from fronten
       friends,
       location,
       occupation,
-      viewedProfile: Math.floor(Math.random() * 10000), //we generate this as a random number
-      impressions: Math.floor(Math.random() * 10000), //we generate this as a random number
+      viewedProfile: Math.floor(Math.random() * 10000),
+      impressions: Math.floor(Math.random() * 10000),
     });
     const savedUser = await newUser.save();
-    res.status(201).json(savedUser); //OK, status 201 - something got created!
+    res.status(201).json(savedUser);
   } catch (err) {
-    res.status(500).json({ error: err.message }); //ERROR, status 500
+    res.status(500).json({ error: err.message });
   }
 };
 
@@ -43,18 +43,15 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email: email });
-
-    if (!user) return res.status(400).json({ msg: "Korisnik ne postoji. " });
+    if (!user) return res.status(400).json({ msg: "User does not exist. " });
 
     const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) return res.status(400).json({ msg: "Podaci nisu validni. " });
+    if (!isMatch) return res.status(400).json({ msg: "Invalid credentials. " });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    delete user.password;s
+    delete user.password;
     res.status(200).json({ token, user });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
-
