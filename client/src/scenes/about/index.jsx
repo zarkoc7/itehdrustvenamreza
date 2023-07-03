@@ -2,12 +2,10 @@ import Navbar from "scenes/navbar";
 import GoogleMaps from "./GoogleMaps";
 import {
   ManageAccountsOutlined,
-  EditOutlined,
   LocationOnOutlined,
   WorkOutlineOutlined,
 } from "@mui/icons-material";
 import { Box, Typography, Divider, useMediaQuery } from "@mui/material";
-import UserImage from "components/UserImage";
 import FlexBetween from "components/FlexBetween";
 import WidgetWrapper from "components/WidgetWrapper";
 
